@@ -8,11 +8,12 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')  # Rend le fichier HTML dans le dossier templates
 
-
+# Définir la route pour afficher le formulaire d'enregistrement/suppression des livres
 @app.route('/enregistrement_livre', methods=['GET'])
 def formulaire_livre():
     return render_template('formulaire_livre.html')  # afficher le formulaire
 
+# Définir la route pour enregistrer un livre
 @app.route('/enregistrement_livre', methods=['POST'])
 def enregistrer_livre():
     titre = request.form['titre']
@@ -23,7 +24,7 @@ def enregistrer_livre():
     cursor = conn.cursor()
 
     # Exécution de la requête SQL pour insérer un nouveau client
-    cursor.execute('INSERT INTO livres (titre, auteur) VALUES (?, ?)', (1002938, titre, auteur, "ICI"))
+    cursor.execute('INSERT INTO livres (titre, auteur) VALUES (?, ?)', (titre, auteur))
     conn.commit()
     conn.close()
     return redirect('/Enregistrer/Supprimer un livre/')  # Rediriger vers la page d'accueil après l'enregistrement
