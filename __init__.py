@@ -7,7 +7,7 @@ import sqlite2
                                                                                                                                        
 app = Flask(__name__)                                                                                                                  
                                                                                                                                        
-@app.route('/')
+@app.route('/welcome')
 def welcome():
     return render_template('welcome.html')
   
