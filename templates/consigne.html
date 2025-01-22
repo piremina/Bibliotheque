@@ -4,21 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 1em;
+            margin: 0;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        main {
+            padding: 2em;
+        }
+        h1, p {
+            margin-bottom: 1em;
+        }
+    </style>
 </head>
 <body>
-    <h1>Objectif : Créer une application de biliothèque</h1>
-    <p>Votre projet consiste à présent à concevoir et développer une application de gestion de bibliothèque moderne qui simplifie
-    le processus de pret et de retour de livres. Les fonctionnalités attendues dans le cadre de ce projet sont les suivantes :</p>
-    <li>L'enregistrement et la suppression de livres</li>
-    <li>La recherche de livres disponibles.</li>
-    <li>L'emprunt possible d'un livre par un utilisateur.</li>
-    <li>La gestion des utilisateurs.</li>
-    <li>La gestion des stocks.</li>
-    <p>Votre travail est de modifier votre code afin de répondre aux besoins définis ci-dessus. L'application exploitera des API 
+    <header>
+        <h1>Bienvenue dans l'application de bibliothèque</h1>
+    </header>
+    <nav>
+        <a href="/enregistrement_livre.html">Enregistrer/Supprimer un livre</a>
+        <a href="/recherche_livre.html">Rechercher un livre</a>
+        <a href="/emprunt_livre.html">Emprunter un livre</a>
+        <a href="/gestion_utilisateurs.html">Gestion des utilisateurs</a>
+        <a href="/gestion_stock.html">Gestion des stocks</a>
+    </nav>
+    <main>
+        <h1>Objectif : Créer une application de bibliothèque</h1>
+        <p>Votre projet consiste à présent à concevoir et développer une application de gestion de bibliothèque moderne qui simplifie
+        le processus de prêt et de retour de livres. Les fonctionnalités attendues dans le cadre de ce projet sont les suivantes :</p>
+        <ul>
+            <li>L'enregistrement et la suppression de livres</li>
+            <li>La recherche de livres disponibles</li>
+            <li>L'emprunt possible d'un livre par un utilisateur</li>
+            <li>La gestion des utilisateurs</li>
+            <li>La gestion des stocks</li>
+        </ul>
+        <p>Votre travail est de modifier votre code afin de répondre aux besoins définis ci-dessus. L'application exploitera des API 
         pour interagir avec la base de données et un contrôle d'accès Utilisateur/Administrateur doit être mis en place. L’application
         pourra être enrichie avec des fonctionnalités supplémentaires telles que des recommandations de livres, des notifications 
         pour les retours en retard, ou encore des rapports statistiques sur l'utilisation des livres pour améliorer l'expérience 
         utilisateur et la gestion de la bibliothèque.</p>
-    
+    </main>
 </body>
 </html>
