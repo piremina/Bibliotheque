@@ -8,6 +8,16 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')  # Rend le fichier HTML dans le dossier templates
 
+@app.route('/fiche_livre/<int:post_id>')
+def Readfiche(post_id):
+    conn = sqlite2.connect('bibliotheque.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM livres)
+    data = cursor.fetchall()
+    conn.close()
+    # Rendre le template HTML et transmettre les données
+    return render_template('data.html', data=data)
+
 # Définir la route pour afficher le formulaire d'enregistrement/suppression des livres
 @app.route('/formulaire_livre.html', methods=['GET'])
 def formulaire_livre():
