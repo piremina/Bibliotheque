@@ -4,9 +4,9 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 # Définir la route pour la page /welcome
-@app.route('/consigne')
-def welcome():
-    return render_template('consigne.html')  # Rend le fichier HTML dans le dossier templates
+@app.route('/index')
+def index():
+    return render_template('index.html')  # Rend le fichier HTML dans le dossier templates
 
 # Démarrer l'application Flask
 if __name__ == "__main__":
