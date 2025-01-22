@@ -31,15 +31,6 @@ def enregistrer_livre():
     return redirect('/Enregistrer/Supprimer un livre/')  # Rediriger vers la page d'accueil après l'enregistrement
 
 
-@app.route('/recherche_livre.html')
-def ReadBDD():
-    conn = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM clients;')
-    conn.close()
-    return render_template('recherche_livre.html')
-
-
 # Démarrer l'application Flask
 if __name__ == "__main__":
     app.run(debug=True)
