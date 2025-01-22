@@ -8,13 +8,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')  # Rend le fichier HTML dans le dossier templates
 
-@app.route('/recherche_livre.html')
-def ReadBDD():
-    conn = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM clients;')
-    conn.close()
-    return render_template('recherche_livre.html')
 
 # Définir la route pour afficher le formulaire d'enregistrement/suppression des livres
 @app.route('/formulaire_livre.html', methods=['GET'])
@@ -36,6 +29,15 @@ def enregistrer_livre():
     conn.commit()
     conn.close()
     return redirect('/Enregistrer/Supprimer un livre/')  # Rediriger vers la page d'accueil après l'enregistrement
+
+
+@app.route('/recherche_livre.html')
+def ReadBDD():
+    conn = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM clients;')
+    conn.close()
+    return render_template('recherche_livre.html')
 
 
 # Démarrer l'application Flask
