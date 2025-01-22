@@ -23,10 +23,10 @@ def enregistrer_livre():
     cursor = conn.cursor()
 
     # Exécution de la requête SQL pour insérer un nouveau client
-    cursor.execute('INSERT INTO clients (created, nom, prenom, adresse) VALUES (?, ?, ?, ?)', (1002938, nom, prenom, "ICI"))
+    cursor.execute('INSERT INTO livres (titre, auteur) VALUES (?, ?)', (1002938, titre, auteur, "ICI"))
     conn.commit()
     conn.close()
-    return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
+    return redirect('/enregistrement_livre/')  # Rediriger vers la page d'accueil après l'enregistrement
 
 
 # Démarrer l'application Flask
