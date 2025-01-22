@@ -1,13 +1,14 @@
-from flask import Flask, render_template_string, render_template, jsonify, request, redirect, url_for, session
-from flask import render_template
-from flask import json
-from urllib.request import urlopen
-from werkzeug.utils import secure_filename
-import sqlite2
+from flask import Flask, render_template
 
+# Initialiser l'application Flask
+app = Flask(__name__)
+
+# Définir la route pour la page d'accueil
 @app.route('/')
 def hello_world():
+    # Retourner un message simple
     return render_template('hello.html')
-                                                                                                                                       
+
+# Démarrer le serveur Flask
 if __name__ == "__main__":
-  app.run(debug=True)
+    app.run(debug=True)
