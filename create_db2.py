@@ -1,20 +1,44 @@
 import sqlite2
 
-connection = sqlite2.connect('database.db')
+# Connexion à la base de données SQLite
+connection = sqlite2.connect('bibliotheque.db')
 
-with open('schema.sql') as f:
+# Lecture et exécution du script SQL pour créer les tables
+with open('schema2.sql') as f:
     connection.executescript(f.read())
 
+# Création d'un curseur pour effectuer des opérations sur la base de données
 cur = connection.cursor()
 
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('DUPONT', 'Emilie', '123, Rue des Lilas, 75001 Paris'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('LEROUX', 'Lucas', '456, Avenue du Soleil, 31000 Toulouse'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('MARTIN', 'Amandine', '789, Rue des Érables, 69002 Lyon'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('TREMBLAY', 'Antoine', '1010, Boulevard de la Mer, 13008 Marseille'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('LAMBERT', 'Sarah', '222, Avenue de la Liberté, 59000 Lille'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('GAGNON', 'Nicolas', '456, Boulevard des Cerisiers, 69003 Lyon'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('DUBOIS', 'Charlotte', '789, Rue des Roses, 13005 Marseille'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('LEFEVRE', 'Thomas', '333, Rue de la Paix, 75002 Paris'))
+# Insertion d'utilisateurs (administrateurs et utilisateurs)
+cur.execute("INSERT INTO utilisateurs (nom, prenom, email, role) VALUES (?, ?, ?, ?)", 
+            ('DUPONT', 'Emilie', 'emilie.dupont@example.com', 'administrateur'))
+cur.execute("INSERT INTO utilisateurs (nom, prenom, email, role) VALUES (?, ?, ?, ?)", 
+            ('LEROUX', 'Lucas', 'lucas.leroux@example.com', 'utilisateur'))
+cur.execute("INSERT INTO utilisateurs (nom, prenom, email, role) VALUES (?, ?, ?, ?)", 
+            ('MARTIN', 'Amandine', 'amandine.martin@example.com', 'utilisateur'))
 
+# Insertion de livres
+cur.execute("INSERT INTO livres (titre, auteur) VALUES (?, ?)", ('Les Misérables', 'Victor Hugo'))
+cur.execute("INSERT INTO livres (titre, auteur) VALUES (?, ?)", ('1984', 'George Orwell'))
+cur.execute("INSERT INTO livres (titre, auteur) VALUES (?, ?)", ('Le Petit Prince', 'Antoine de Saint-Exupéry'))
+
+# Insertion des stocks (exemplaires des livres)
+cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (1, 1))
+cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (1, 2))
+cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (2, 1))
+cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (3, 1))
+cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (3, 2))
+cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (3, 3))
+
+# Insertion d'emprunts
+cur.execute("INSERT INTO emprunts (utilisateur_id, livre_id, date_retour_prevue) VALUES (?, ?, ?)", 
+            (2, 1, '2025-02-01 12:00:00'))
+cur.execute("INSERT INTO emprunts (utilisateur_id, livre_id, date_retour_prevue) VALUES (?, ?, ?)", 
+            (3, 3, '2025-02-15 12:00:00'))
+
+# Validation des modifications
 connection.commit()
+
+# Fermeture de la connexion
 connection.close()
