@@ -11,7 +11,7 @@ def index():
 
 @app.route('/enregistrement_livre', methods=['GET'])
 def formulaire_livre():
-    return render_template('enregistrement_livre.html')  # afficher le formulaire
+    return render_template('formulaire_livre.html')  # afficher le formulaire
 
 @app.route('/enregistrement_livre', methods=['POST'])
 def enregistrer_livre():
@@ -26,7 +26,7 @@ def enregistrer_livre():
     cursor.execute('INSERT INTO livres (titre, auteur) VALUES (?, ?)', (1002938, titre, auteur, "ICI"))
     conn.commit()
     conn.close()
-    return redirect('/enregistrement_livre/')  # Rediriger vers la page d'accueil après l'enregistrement
+    return redirect('/Enregistrer/Supprimer un livre/')  # Rediriger vers la page d'accueil après l'enregistrement
 
 
 # Démarrer l'application Flask
