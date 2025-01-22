@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')  # Rend le fichier HTML dans le dossier templates
 
-@app.route('/recherche_livre.html')
+@app.route('/recherche_livre')
 def ReadBDD():
     conn = sqlite3.connect('database.db')
     cursor = connection.cursor()
