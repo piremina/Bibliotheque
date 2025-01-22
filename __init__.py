@@ -21,7 +21,7 @@ def enregistrer_livre():
 
     # Connexion à la base de données
     conn = sqlite2.connect('bibliotheque.db')
-    cursor = conn.cursor()
+    cursor = connection.cursor()
 
     # Exécution de la requête SQL pour insérer un nouveau client
     cursor.execute('INSERT INTO livres (titre, auteur) VALUES (?, ?)', (titre, auteur))
