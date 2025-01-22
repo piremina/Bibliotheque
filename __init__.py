@@ -20,7 +20,7 @@ def enregistrer_livre():
     auteur = request.form['auteur']
 
     # Connexion à la base de données
-    conn = sqlite2.connect('database.db')
+    conn = sqlite2.connect('bibliotheque.db')
     cursor = conn.cursor()
 
     # Exécution de la requête SQL pour insérer un nouveau client
