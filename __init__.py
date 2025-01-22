@@ -10,7 +10,7 @@ def index():
 
 
 # Définir la route pour afficher le formulaire d'enregistrement/suppression des livres
-@app.route('/formulaire_livre.html', methods=['GET'])
+@app.route('/enregistrement_livre.html', methods=['GET'])
 def formulaire_livre():
     return render_template('formulaire_livre.html')  # afficher le formulaire
 
