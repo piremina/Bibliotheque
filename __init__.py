@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')  # Rend le fichier HTML dans le dossier templates
 
-@app.route('/fiche_livre/<int:post_id>')
+@app.route('/formulaire_livre.html')
 def Readfiche(post_id):
     conn = sqlite2.connect('bibliotheque.db')
     cursor = conn.cursor()
