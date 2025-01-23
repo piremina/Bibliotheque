@@ -10,6 +10,15 @@ with open('schema2.sql') as f:
 # Création d'un curseur pour effectuer des opérations sur la base de données
 cur = connection.cursor()
 
+# Création de la table livres si elle n'existe pas déjà
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS livres (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        titre TEXT NOT NULL,
+        auteur TEXT NOT NULL
+    );
+''')
+
 # Insertion d'utilisateurs (administrateurs et utilisateurs)
 cur.execute("INSERT INTO utilisateurs (nom, prenom, email, role) VALUES (?, ?, ?, ?)", 
             ('DUPONT', 'Emilie', 'emilie.dupont@example.com', 'administrateur'))
