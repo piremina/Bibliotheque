@@ -25,7 +25,7 @@ def enregistrer_livre():
 def ReadBDD():
     conn = sqlite3.connect('database.db')  # Corrigé : sqlite3
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM livres;') # Exécution de la requête SQL pour récupérer les données
+    cursor.execute('SELECT * FROM livres') # Exécution de la requête SQL pour récupérer les données
     data = cursor.fetchall()
     conn.close()  # Fermeture de la connexion à la base de données
     return render_template('data.html', data=data) # Rendu de la page HTML avec les données extraites
