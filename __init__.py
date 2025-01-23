@@ -22,7 +22,7 @@ def enregistrer_livre():
 
 @app.route('/recherche_livre')
 def ReadBDD():
-    conn = sqlite3.connect('bibliotheque.db')  # Corrigé : sqlite3
+    conn = sqlite3.connect('database.db')  # Corrigé : sqlite3
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM livres') # Exécution de la requête SQL pour récupérer les données
     data = cursor.fetchall()
