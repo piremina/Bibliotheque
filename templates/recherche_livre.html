@@ -4,13 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche de Livres</title>
+    <!-- Ajouter un peu de style CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* Formulaire de recherche */
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        #search_query {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Tableau stylisé */
+        table {
+            width: 80%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Message quand aucun résultat n'est trouvé */
+        .no-result {
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
     <h1>Recherche de Livres</h1>
 
     <!-- Formulaire de recherche -->
     <form method="POST" action="/recherche_livre">
-        <label for="search_query">Rechercher par titre ou auteur :</label>
         <input type="text" id="search_query" name="search_query" placeholder="Saisissez un titre ou un auteur"
                value="{{ request.form.get('search_query', '') }}">
         <button type="submit">Rechercher</button>
@@ -18,8 +101,8 @@
 
     <h2>Résultats de la Recherche</h2>
 
-    <!-- Tableaux affichant les livres -->
-    <table border="1">
+    <!-- Tableau affichant les livres -->
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
@@ -37,7 +120,7 @@
                     </tr>
                 {% endfor %}
             {% else %}
-                <tr>
+                <tr class="no-result">
                     <td colspan="3">Aucun livre trouvé.</td>
                 </tr>
             {% endif %}
