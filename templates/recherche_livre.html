@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche de Livres</title>
+</head>
+<body>
+    <h1>Recherche de Livres</h1>
+
+    <!-- Formulaire de recherche -->
+    <form method="POST" action="/recherche_livre">
+        <label for="search_query">Rechercher par titre ou auteur :</label>
+        <input type="text" id="search_query" name="search_query" placeholder="Saisissez un titre ou un auteur"
+               value="{{ request.form.get('search_query', '') }}">
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <h2>Résultats de la Recherche</h2>
+
+    <!-- Tableaux affichant les livres -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if livres %}
+                {% for livre in livres %}
+                    <tr>
+                        <td>{{ livre[0] }}</td>
+                        <td>{{ livre[1] }}</td>
+                        <td>{{ livre[2] }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun livre trouvé.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html>
