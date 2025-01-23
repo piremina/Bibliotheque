@@ -19,6 +19,8 @@ cur.execute('''
     );
 ''')
 
+connection.commit()
+
 # Création de la table utilisateurs si elle n'existe pas déjà
 cur.execute('''
     CREATE TABLE IF NOT EXISTS utilisateurs (
@@ -29,7 +31,7 @@ cur.execute('''
         role TEXT NOT NULL
     );
 ''')
-
+connection.commit()
 # Création de la table stock si elle n'existe pas déjà
 cur.execute('''
     CREATE TABLE IF NOT EXISTS stock (
@@ -39,6 +41,7 @@ cur.execute('''
         FOREIGN KEY (livre_id) REFERENCES livres (id)
     );
 ''')
+connection.commit()
 
 # Création de la table emprunts si elle n'existe pas déjà
 cur.execute('''
@@ -51,6 +54,7 @@ cur.execute('''
         FOREIGN KEY (livre_id) REFERENCES livres (id)
     );
 ''')
+connection.commit()
 
 # Insertion d'utilisateurs (administrateurs et utilisateurs)
 cur.execute("INSERT INTO utilisateurs (nom, prenom, email, role) VALUES (?, ?, ?, ?)", 
@@ -59,11 +63,13 @@ cur.execute("INSERT INTO utilisateurs (nom, prenom, email, role) VALUES (?, ?, ?
             ('LEROUX', 'Lucas', 'lucas.leroux@example.com', 'utilisateur'))
 cur.execute("INSERT INTO utilisateurs (nom, prenom, email, role) VALUES (?, ?, ?, ?)", 
             ('MARTIN', 'Amandine', 'amandine.martin@example.com', 'utilisateur'))
+connection.commit()
 
 # Insertion de livres
 cur.execute("INSERT INTO livres (titre, auteur) VALUES (?, ?)", ('Les Misérables', 'Victor Hugo'))
 cur.execute("INSERT INTO livres (titre, auteur) VALUES (?, ?)", ('1984', 'George Orwell'))
 cur.execute("INSERT INTO livres (titre, auteur) VALUES (?, ?)", ('Le Petit Prince', 'Antoine de Saint-Exupéry'))
+connection.commit()
 
 # Insertion des stocks (exemplaires des livres)
 cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (1, 1))
@@ -72,6 +78,7 @@ cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (2, 1))
 cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (3, 1))
 cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (3, 2))
 cur.execute("INSERT INTO stock (livre_id, exemplaire_id) VALUES (?, ?)", (3, 3))
+connection.commit()
 
 # Insertion d'emprunts
 cur.execute("INSERT INTO emprunts (utilisateur_id, livre_id, date_retour_prevue) VALUES (?, ?, ?)", 
