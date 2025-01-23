@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import sqlite3
 
 # Initialiser l'application Flask
 app = Flask(__name__)
