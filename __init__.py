@@ -1,4 +1,4 @@
-from flask import Flask,
+from flask import Flask
 import sqlite3
 
 # Initialiser l'application Flask
