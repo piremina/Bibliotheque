@@ -20,16 +20,14 @@ def enregistrer_livre():
     titre = request.form['titre']
     auteur = request.form['auteur']
 
-    # Connexion à la base de données
-    conn = sqlite2.connect('bibliotheque.db')
-    cursor = connection.cursor()
-
-    # Exécution de la requête SQL pour insérer un nouveau client
-    cursor.execute('INSERT INTO livres (titre, auteur) VALUES (?, ?)', (titre, auteur))
-    conn.commit()
+@app.route('/recherche_livre/')
+def ReadBDD():
+    conn = sqlite2.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM livres;')
+    data = cursor.fetchall()
     conn.close()
-    return redirect('/Enregistrer/Supprimer un livre/')  # Rediriger vers la page d'accueil après l'enregistrement
-
+    return render_template('data.html', data=data)
 
 # Démarrer l'application Flask
 if __name__ == "__main__":
