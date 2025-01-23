@@ -1,20 +1,64 @@
 {% extends "layout.html" %}
+
 {% block content %}
-<div class="container bottomForm">
-    <h2 class="text-center">Enregistrer/Supprimer un livre</h2>
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <form method="POST" class="text-left col-sm-6">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ form.nom.label }} {{ form.nom(class="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ form.titre.label }} {{ form.(classtitre="form-control") }}
-            </div>
-            {{ form.submit(class="btn btn-primary") }}
-        </form>
-        <div class="col-sm-3"></div>
+<div class="container mt-5">
+    <h2 class="text-center text-success mb-4">Enregistrer ou Supprimer un Livre</h2>
+
+    <!-- Formulaire d'enregistrement -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form method="POST" class="bg-light p-4 rounded shadow-sm">
+                {{ form.hidden_tag() }}
+                <div class="form-group mb-3">
+                    <label for="nom" class="form-label">Nom de l'auteur</label>
+                    {{ form.nom(class="form-control", placeholder="Entrez le nom de l'auteur") }}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="titre" class="form-label">Titre du livre</label>
+                    {{ form.titre(class="form-control", placeholder="Entrez le titre du livre") }}
+                </div>
+                <div class="form-group text-center">
+                    {{ form.submit(class="btn btn-success w-100") }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Liste des livres existants -->
+    <h3 class="text-center text-primary mt-5">Liste des Livres Existants</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <table class="table table-bordered table-striped table-hover mt-4">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if livres %}
+                        {% for livre in livres %}
+                            <tr>
+                                <td>{{ livre[0] }}</td>
+                                <td>{{ livre[1] }}</td>
+                                <td>{{ livre[2] }}</td>
+                                <td>
+                                    <form method="POST" action="/supprimer_livre/{{ livre[0] }}" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">Aucun livre trouvé.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock content %}
