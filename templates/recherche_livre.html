@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche de Livres</title>
-    <!-- Ajouter un peu de style CSS -->
     <style>
+        /* Ajouter des styles comme précédemment pour une page agréable */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f7fc;
@@ -23,7 +23,6 @@
             margin-bottom: 20px;
         }
 
-        /* Formulaire de recherche */
         form {
             display: flex;
             justify-content: center;
@@ -56,7 +55,6 @@
             background-color: #45a049;
         }
 
-        /* Tableau stylisé */
         table {
             width: 80%;
             margin-top: 20px;
@@ -81,7 +79,6 @@
             background-color: #f1f1f1;
         }
 
-        /* Message quand aucun résultat n'est trouvé */
         .no-result {
             text-align: center;
             font-size: 18px;
@@ -95,7 +92,7 @@
     <!-- Formulaire de recherche -->
     <form method="POST" action="/recherche_livre">
         <input type="text" id="search_query" name="search_query" placeholder="Saisissez un titre ou un auteur"
-               value="{{ request.form.get('search_query', '') }}">
+               value="{{ search_query }}">
         <button type="submit">Rechercher</button>
     </form>
 
