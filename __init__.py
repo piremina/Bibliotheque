@@ -20,7 +20,7 @@ def enregistrer_livre():
     titre = request.form['titre']
     auteur = request.form['auteur']
 
-@app.route('/recherche_livre')
+@app.route('/recherche_livre/')
 def ReadBDD():
     conn = sqlite3.connect('database.db')  # Corrigé : sqlite3
     cursor = conn.cursor()
