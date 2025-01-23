@@ -1,26 +1,31 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livres</title>
 </head>
 <body>
     <h1>Liste des Livres</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Création</th>
-            <th>Titre</th>
-            <th>Auteur</th>
-        </tr>
-        {% for row in data %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-        </tr>
-        {% endfor %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row[0] }}</td> <!-- ID du livre -->
+                <td>{{ row[1] }}</td> <!-- Titre du livre -->
+                <td>{{ row[2] }}</td> <!-- Auteur du livre -->
+                <td>{{ row[3] }}</td> <!-- Stock disponible -->
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>
