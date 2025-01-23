@@ -4,6 +4,10 @@ import sqlite3
 # Initialiser l'application Flask
 app = Flask(__name__)
 
+@app.route('/index')
+def consigne():
+    return render_template('index.html') #Comm
+
 # Route pour afficher tous les livres et gérer la recherche
 @app.route('/recherche_livre/', methods=['GET', 'POST'])
 def recherche_livre():
