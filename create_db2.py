@@ -1,4 +1,4 @@
-import sqlite3 #Il s'agit d'une bibliothèque donc il ne faut pas la modifier
+import sqlite3  # Il s'agit d'une bibliothèque donc il ne faut pas la modifier
 
 # Connexion à la base de données SQLite
 connection = sqlite3.connect('database.db')
@@ -11,11 +11,44 @@ with open('schema2.sql') as f:
 cur = connection.cursor()
 
 # Création de la table livres si elle n'existe pas déjà
-cursor.execute('''
+cur.execute('''
     CREATE TABLE IF NOT EXISTS livres (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         titre TEXT NOT NULL,
         auteur TEXT NOT NULL
+    );
+''')
+
+# Création de la table utilisateurs si elle n'existe pas déjà
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS utilisateurs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nom TEXT NOT NULL,
+        prenom TEXT NOT NULL,
+        email TEXT NOT NULL,
+        role TEXT NOT NULL
+    );
+''')
+
+# Création de la table stock si elle n'existe pas déjà
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS stock (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        livre_id INTEGER NOT NULL,
+        exemplaire_id INTEGER NOT NULL,
+        FOREIGN KEY (livre_id) REFERENCES livres (id)
+    );
+''')
+
+# Création de la table emprunts si elle n'existe pas déjà
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS emprunts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        utilisateur_id INTEGER NOT NULL,
+        livre_id INTEGER NOT NULL,
+        date_retour_prevue TEXT NOT NULL,
+        FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs (id),
+        FOREIGN KEY (livre_id) REFERENCES livres (id)
     );
 ''')
 
