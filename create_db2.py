@@ -1,7 +1,7 @@
 import sqlite3 #Il s'agit d'une bibliothèque donc il ne faut pas la modifier
 
 # Connexion à la base de données SQLite
-connection = sqlite3.connect('bibliotheque.db')
+connection = sqlite3.connect('database.db')
 
 # Lecture et exécution du script SQL pour créer les tables
 with open('schema2.sql') as f:
