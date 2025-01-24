@@ -22,7 +22,7 @@ def enregistrement_livre():
     return render_template('partials/livres_list.html', livres=livres)
 
 # Route pour ajouter un nouveau livre
-@app.route('/ajouter_livre', methods=['POST'])
+@app.route('/enregistrement_livre', methods=['POST'])
 def ajouter_livre():
     titre = request.form['titre']
     auteur = request.form['auteur']
@@ -42,7 +42,7 @@ def ajouter_livre():
     return jsonify({"message": "Livre ajouté avec succès"}), 200
 
 # Route pour supprimer un livre
-@app.route('/supprimer_livre/<int:livre_id>', methods=['POST'])
+@app.route('/enregistrement_livre/<int:livre_id>', methods=['POST'])
 def supprimer_livre(livre_id):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
