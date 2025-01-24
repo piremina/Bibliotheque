@@ -44,28 +44,58 @@
         document.getElementById('ajout-livre-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
+            // Récupérer les valeurs du formulaire
             const titre = document.getElementById('titre').value;
             const auteur = document.getElementById('auteur').value;
             const annee = document.getElementById('annee').value;
             const genre = document.getElementById('genre').value;
 
-            // Crée un nouvel élément li pour afficher le livre ajouté
-            const li = document.createElement('li');
-            li.textContent = `${titre} - ${auteur} (${annee}, ${genre})`;
-
-            // Ajouter un bouton de suppression
-            const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = 'Supprimer';
-            deleteBtn.onclick = function() {
-                li.remove();
+            // Créer un objet livre à envoyer au backend
+            const livre = {
+                titre: titre,
+                auteur: auteur,
+                annee: annee,
+                genre: genre
             };
-            li.appendChild(deleteBtn);
 
-            // Ajouter le livre à la liste
-            document.getElementById('livre-list').appendChild(li);
+            // Envoi de l'objet livre au backend via fetch (POST)
+            fetch('/ajouter_livre', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(livre)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Vérifie la réponse du backend, et affiche le livre dans la liste si l'ajout est réussi
+                if (data.success) {
+                    // Créer un nouvel élément li pour afficher le livre ajouté
+                    const li = document.createElement('li');
+                    li.textContent = `${titre} - ${auteur} (${annee}, ${genre})`;
 
-            // Réinitialiser le formulaire
-            document.getElementById('ajout-livre-form').reset();
+                    // Ajouter un bouton de suppression
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Supprimer';
+                    deleteBtn.onclick = function() {
+                        li.remove();
+                        // Optionnellement, tu pourrais appeler une route pour supprimer définitivement le livre de la base de données ici
+                    };
+                    li.appendChild(deleteBtn);
+
+                    // Ajouter le livre à la liste
+                    document.getElementById('livre-list').appendChild(li);
+
+                    // Réinitialiser le formulaire
+                    document.getElementById('ajout-livre-form').reset();
+                } else {
+                    alert('Une erreur est survenue lors de l\'ajout du livre.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'ajout du livre:', error);
+                alert('Une erreur est survenue.');
+            });
         });
     </script>
 
