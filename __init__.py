@@ -31,7 +31,7 @@ def enregistrement_livre():
         conn.commit()
 
     # Récupérer tous les livres pour les afficher
-    cursor.execute("SELECT * FROM livres")
+    cursor.execute("SELECT * FROM livres;")
     livres = cursor.fetchall()
     conn.close()
 
@@ -48,7 +48,7 @@ def recherche_livre():
     if request.method == 'POST':
         search_query = request.form['search_query']
         # Effectuer une recherche par titre ou auteur
-        query = f"SELECT * FROM livres WHERE titre LIKE ? OR auteur LIKE ?"
+        query = f"SELECT * FROM livres WHERE titre LIKE ? OR auteur LIKE ?;"
         cursor.execute(query, ('%' + search_query + '%', '%' + search_query + '%'))
     else:
         # Si pas de recherche, on récupère tous les livres
