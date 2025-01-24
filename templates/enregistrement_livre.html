@@ -3,133 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrement des livres</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #4169E1;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0000FF;
-        }
-        .livre-list {
-            margin-top: 20px;
-        }
-        .livre-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            background-color: #f4f4f4;
-            margin: 5px 0;
-            border-radius: 4px;
-        }
-        .livre-item button {
-            background-color: red;
-            border-radius: 4px;
-        }
-        .livre-item button:hover {
-            background-color: darkred;
-        }
-    </style>
+    <title>Enregistrement de Livre</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Gestion de Bibliothèque - Enregistrement et Suppression de Livres</h1>
+    </header>
+    
+    <!-- Formulaire d'enregistrement de livre -->
+    <section>
+        <h2>Ajouter un Livre</h2>
+        <form id="ajout-livre-form" action="/ajouter_livre" method="POST">
+            <label for="titre">Titre:</label>
+            <input type="text" id="titre" name="titre" required>
+            
+            <label for="auteur">Auteur:</label>
+            <input type="text" id="auteur" name="auteur" required>
+            
+            <label for="annee">Année de Publication:</label>
+            <input type="number" id="annee" name="annee" required>
+            
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" name="genre" required>
+            
+            <button type="submit">Ajouter le Livre</button>
+        </form>
+    </section>
 
-<div class="container">
-    <h1>Enregistrer un nouveau livre</h1>
+    <!-- Affichage des livres enregistrés -->
+    <section>
+        <h2>Liste des Livres</h2>
+        <ul id="livre-list">
+            <!-- Les livres ajoutés s'afficheront ici -->
+        </ul>
+    </section>
 
-    <form id="livreForm">
-        <input type="text" id="titre" name="titre" placeholder="Titre" required>
-        <input type="text" id="auteur" name="auteur" placeholder="Auteur" required>
-        <input type="number" id="annee" name="annee" placeholder="Année" required>
-        <input type="text" id="genre" name="genre" placeholder="Genre" required>
-        <input type="number" id="stock" name="stock" placeholder="Stock" required>
-        <button type="submit">Ajouter le livre</button>
-    </form>
-
-    <div class="livre-list">
-        <h2>Liste des livres</h2>
-        <div id="livreContainer">
-            <!-- Liste des livres sera insérée ici -->
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function() {
-        // Fonction pour charger la liste des livres
-        function loadLivres() {
-            $.get('/enregistrement_livre', function(data) {
-                $('#livreContainer').html(data);
-            });
-        }
-
-        // Charger les livres au démarrage
-        loadLivres();
-
-        // Soumettre le formulaire pour ajouter un livre
-        $('#livreForm').on('submit', function(e) {
+    <!-- Script JS pour gérer l'ajout et la suppression sans recharger la page -->
+    <script>
+        document.getElementById('ajout-livre-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            let titre = $('#titre').val();
-            let auteur = $('#auteur').val();
-            let annee = $('#annee').val();
-            let genre = $('#genre').val();
-            let stock = $('#stock').val();
-            
-            $.post('/ajouter_livre', {
-                titre: titre,
-                auteur: auteur,
-                annee: annee,
-                genre: genre,
-                stock: stock
-            }, function(response) {
-                // Réinitialiser le formulaire après ajout
-                $('#livreForm')[0].reset();
-                loadLivres(); // Rafraîchir la liste des livres
-            });
-        });
 
-        // Fonction pour supprimer un livre
-        $(document).on('click', '.supprimer-btn', function() {
-            let livreId = $(this).data('id');
-            
-            // Confirmation de suppression
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce livre ?')) {
-                $.post('/supprimer_livre/' + livreId, function(response) {
-                    loadLivres(); // Rafraîchir la liste des livres
-                });
-            }
+            const titre = document.getElementById('titre').value;
+            const auteur = document.getElementById('auteur').value;
+            const annee = document.getElementById('annee').value;
+            const genre = document.getElementById('genre').value;
+
+            // Crée un nouvel élément li pour afficher le livre ajouté
+            const li = document.createElement('li');
+            li.textContent = `${titre} - ${auteur} (${annee}, ${genre})`;
+
+            // Ajouter un bouton de suppression
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Supprimer';
+            deleteBtn.onclick = function() {
+                li.remove();
+            };
+            li.appendChild(deleteBtn);
+
+            // Ajouter le livre à la liste
+            document.getElementById('livre-list').appendChild(li);
+
+            // Réinitialiser le formulaire
+            document.getElementById('ajout-livre-form').reset();
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
