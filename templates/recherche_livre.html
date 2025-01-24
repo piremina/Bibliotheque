@@ -19,7 +19,7 @@
         }
 
         h1 {
-            color: #4CAF50;
+            color: #1D4ED8;  /* Bleu roi */
             margin-bottom: 20px;
         }
 
@@ -42,7 +42,7 @@
 
         button {
             padding: 12px 20px;
-            background-color: #4CAF50;
+            background-color: #1D4ED8;  /* Bleu roi */
             color: white;
             border: none;
             border-radius: 25px;
@@ -52,7 +52,7 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #1e40af;  /* Teinte plus foncée de bleu roi */
         }
 
         table {
@@ -71,7 +71,7 @@
         }
 
         th {
-            background-color: #4CAF50;
+            background-color: #1D4ED8;  /* Bleu roi */
             color: white;
         }
 
@@ -105,6 +105,7 @@
                 <th>ID</th>
                 <th>Titre</th>
                 <th>Auteur</th>
+                <th>Année</th>  <!-- Nouvelle colonne pour l'année -->
             </tr>
         </thead>
         <tbody>
@@ -114,11 +115,12 @@
                         <td>{{ livre[0] }}</td>
                         <td>{{ livre[1] }}</td>
                         <td>{{ livre[2] }}</td>
+                        <td>{{ livre[3] }}</td>  <!-- Affichage de l'année -->
                     </tr>
                 {% endfor %}
             {% else %}
                 <tr class="no-result">
-                    <td colspan="3">Aucun livre trouvé.</td>
+                    <td colspan="4">Aucun livre trouvé.</td>  <!-- Changer "3" en "4" pour inclure l'année -->
                 </tr>
             {% endif %}
         </tbody>
