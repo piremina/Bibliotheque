@@ -8,17 +8,19 @@ app = Flask(__name__)
 def consigne():
     return render_template('index.html') #Comm
 
+
 # Route pour afficher et gérer l'enregistrement/suppression des livres
 @app.route('/enregistrement_livre', methods=['GET', 'POST'])
 def enregistrement_livre():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-# Ajouter un livre si méthode POST
-    if request.method == 'POST' and 'titre' in request.form and 'nom' in request.form:
+    # Ajouter un livre si méthode POST
+    if request.method == 'POST' and 'titre' in request.form and 'nom' in request.form and 'annee' in request.form:
         titre = request.form['titre']
         auteur = request.form['nom']
-        cursor.execute('INSERT INTO livres (titre, auteur) VALUES (?, ?)', (titre, auteur))
+        annee = request.form['annee']
+        cursor.execute('INSERT INTO livres (titre, auteur, annee) VALUES (?, ?, ?)', (titre, auteur, annee))
         conn.commit()
 
     # Récupérer tous les livres existants
@@ -27,7 +29,8 @@ def enregistrement_livre():
     conn.close()
 
     return render_template('enregistrement_livre.html', livres=livres)
-# Route pour supprimer un livre
+
+# Route pour supprimer un livre avec AJAX
 @app.route('/supprimer_livre/<int:livre_id>', methods=['POST'])
 def supprimer_livre(livre_id):
     try:
@@ -43,12 +46,18 @@ def supprimer_livre(livre_id):
             cursor.execute('DELETE FROM livres WHERE id = ?', (livre_id,))
             conn.commit()
 
+        # Récupérer tous les livres restants après suppression
+        cursor.execute('SELECT * FROM livres')
+        livres = cursor.fetchall()
         conn.close()
+
+        # Retourner la nouvelle liste des livres
+        return render_template('partials/livres_list.html', livres=livres)
+
     except Exception as e:
-        print(f"Erreur lors de la suppression : {e}")  # Log pour débogage
-    finally:
-        # Rediriger vers la page d'enregistrement après suppression
-        return redirect(url_for('enregistrement_livre'))
+        print(f"Erreur lors de la suppression : {e}")
+        return jsonify({'error': str(e)}), 400
+
 
 # Route pour afficher tous les livres et gérer la recherche
 @app.route('/recherche_livre/', methods=['GET', 'POST'])
