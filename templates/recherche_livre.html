@@ -5,73 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche de Livres</title>
     <style>
-        /* Ajouter des styles comme précédemment pour une page agréable */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #f4f7fc;
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
+            padding: 20px;
         }
 
-        h1 {
-            color: #1D4ED8;  /* Bleu roi */
-            margin-bottom: 20px;
+        h1, h2 {
+            color: #1D4ED8;
+            text-align: center;
         }
 
         form {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
-            width: 80%;
-            max-width: 600px;
+            margin-bottom: 20px;
         }
 
         #search_query {
-            width: 80%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 25px;
+            padding: 10px;
             font-size: 16px;
+            width: 70%;
+            max-width: 500px;
             margin-right: 10px;
         }
 
         button {
-            padding: 12px 20px;
-            background-color: #1D4ED8;  /* Bleu roi */
+            padding: 10px 20px;
+            background-color: #1D4ED8;
             color: white;
             border: none;
-            border-radius: 25px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #1e40af;  /* Teinte plus foncée de bleu roi */
+            background-color: #1e40af;
         }
 
         table {
-            width: 80%;
-            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
             border-collapse: collapse;
-            background-color: white;
+            background: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
         }
 
         th, td {
-            padding: 12px;
+            padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: #1D4ED8;  /* Bleu roi */
+            background-color: #1D4ED8;
             color: white;
         }
 
@@ -81,8 +69,8 @@
 
         .no-result {
             text-align: center;
-            font-size: 18px;
             color: #888;
+            font-style: italic;
         }
     </style>
 </head>
@@ -96,16 +84,18 @@
         <button type="submit">Rechercher</button>
     </form>
 
-    <h2>Résultats de la Recherche</h2>
+    <h2>Liste des Livres</h2>
 
-    <!-- Tableau affichant les livres -->
+    <!-- Tableau pour afficher les livres -->
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Titre</th>
                 <th>Auteur</th>
-                <th>Année</th>  <!-- Nouvelle colonne pour l'année -->
+                <th>Année</th>
+                <th>Genre</th>
+                <th>Stock</th>
             </tr>
         </thead>
         <tbody>
@@ -115,12 +105,14 @@
                         <td>{{ livre[0] }}</td>
                         <td>{{ livre[1] }}</td>
                         <td>{{ livre[2] }}</td>
-                        <td>{{ livre[3] }}</td>  <!-- Affichage de l'année -->
+                        <td>{{ livre[3] }}</td>
+                        <td>{{ livre[4] }}</td>
+                        <td>{{ livre[5] }}</td>
                     </tr>
                 {% endfor %}
             {% else %}
-                <tr class="no-result">
-                    <td colspan="4">Aucun livre trouvé.</td>  <!-- Changer "3" en "4" pour inclure l'année -->
+                <tr>
+                    <td colspan="6" class="no-result">Aucun livre trouvé.</td>
                 </tr>
             {% endif %}
         </tbody>
