@@ -27,16 +27,28 @@ def enregistrement_livre():
     conn.close()
 
     return render_template('enregistrement_livre.html', livres=livres)
-
 # Route pour supprimer un livre
 @app.route('/supprimer_livre/<int:livre_id>', methods=['POST'])
 def supprimer_livre(livre_id):
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM livres WHERE id = ?', (livre_id,))
-    conn.commit()
-    conn.close()
-    return redirect(url_for('enregistrement_livre'))
+    try:
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+
+        # Vérifier si le livre existe avant de supprimer
+        cursor.execute('SELECT * FROM livres WHERE id = ?', (livre_id,))
+        livre = cursor.fetchone()
+
+        if livre:
+            # Supprimer le livre
+            cursor.execute('DELETE FROM livres WHERE id = ?', (livre_id,))
+            conn.commit()
+
+        conn.close()
+    except Exception as e:
+        print(f"Erreur lors de la suppression : {e}")  # Log pour débogage
+    finally:
+        # Rediriger vers la page d'enregistrement après suppression
+        return redirect(url_for('enregistrement_livre'))
 
 # Route pour afficher tous les livres et gérer la recherche
 @app.route('/recherche_livre/', methods=['GET', 'POST'])
