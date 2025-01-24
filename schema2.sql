@@ -1,11 +1,14 @@
--- Création de la table livres
-CREATE TABLE IF NOT EXISTS livres (
+-- Recréation de la table livres avec la colonne "année"
+DROP TABLE IF EXISTS livres;
+
+CREATE TABLE livres (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     titre TEXT NOT NULL,
-    auteur TEXT NOT NULL
+    auteur TEXT NOT NULL,
+    annee INTEGER NOT NULL
 );
 
--- Création de la table utilisateurs
+-- Création des autres tables
 CREATE TABLE IF NOT EXISTS utilisateurs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nom TEXT NOT NULL,
@@ -14,7 +17,6 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     role TEXT NOT NULL
 );
 
--- Création de la table stock
 CREATE TABLE IF NOT EXISTS stock (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     livre_id INTEGER NOT NULL,
@@ -22,7 +24,6 @@ CREATE TABLE IF NOT EXISTS stock (
     FOREIGN KEY (livre_id) REFERENCES livres(id)
 );
 
--- Création de la table emprunts
 CREATE TABLE IF NOT EXISTS emprunts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     utilisateur_id INTEGER NOT NULL,
