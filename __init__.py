@@ -8,51 +8,30 @@ app = Flask(__name__)
 def consigne():
     return render_template('index.html') #Comm
 
-# Route pour afficher et gérer l'enregistrement des livres
-@app.route('/enregistrement_livre', methods=['GET'])
+# Route pour afficher la page d'enregistrement et de gestion des livres
+@app.route('/enregistrement_livre', methods=['GET', 'POST'])
 def enregistrement_livre():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-    # Récupérer tous les livres existants
-    cursor.execute('SELECT * FROM livres')
+    if request.method == 'POST':
+        # Ajouter un nouveau livre
+        titre = request.form['titre']
+        auteur = request.form['auteur']
+        annee = request.form['annee']
+        genre = request.form['genre']
+
+        # Insertion dans la base de données
+        cursor.execute("INSERT INTO livres (titre, auteur, annee, genre) VALUES (?, ?, ?, ?)",
+                       (titre, auteur, annee, genre))
+        conn.commit()
+
+    # Récupérer tous les livres pour les afficher
+    cursor.execute("SELECT * FROM livres")
     livres = cursor.fetchall()
     conn.close()
 
-    return render_template('partials/livres_list.html', livres=livres)
-
-# Route pour ajouter un nouveau livre
-@app.route('/enregistrement_livre', methods=['POST'])
-def ajouter_livre():
-    titre = request.form['titre']
-    auteur = request.form['auteur']
-    annee = request.form['annee']
-    genre = request.form['genre']
-    stock = request.form['stock']
-    
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    # Ajouter le livre à la base de données
-    cursor.execute('INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)', 
-                   (titre, auteur, annee, genre, stock))
-    conn.commit()
-    conn.close()
-
-    return jsonify({"message": "Livre ajouté avec succès"}), 200
-
-# Route pour supprimer un livre
-@app.route('/enregistrement_livre/<int:livre_id>', methods=['POST'])
-def supprimer_livre(livre_id):
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    # Supprimer le livre de la base de données
-    cursor.execute('DELETE FROM livres WHERE id = ?', (livre_id,))
-    conn.commit()
-    conn.close()
-
-    return jsonify({"message": "Livre supprimé avec succès"}), 200
+    return render_template('enregistrement_livre.html', livres=livres)
 
 # Route pour afficher tous les livres et gérer la recherche
 @app.route('/recherche_livre/', methods=['GET', 'POST'])
