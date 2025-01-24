@@ -33,27 +33,31 @@ def enregistrement_livre():
 
     return render_template('enregistrement_livre.html', livres=livres)
 
-# Route pour afficher tous les livres et gérer la recherche
-@app.route('/recherche_livre/', methods=['GET', 'POST'])
+
+
+
+@app.route('/recherche_livre', methods=['GET', 'POST'])
 def recherche_livre():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-    # Par défaut, on récupère tous les livres
+    # Récupération de tous les livres dans la base de données
+    query = "SELECT * FROM livres"
+    all_livres = cursor.execute(query).fetchall()
+
+    # Gérer la recherche si un formulaire POST est envoyé
+    livres = []
+    search_query = ""
     if request.method == 'POST':
-        search_query = request.form['search_query']
-        # Effectuer une recherche par titre ou auteur
-        query = f"SELECT * FROM livres WHERE titre LIKE ? OR auteur LIKE ?"
-        cursor.execute(query, ('%' + search_query + '%', '%' + search_query + '%'))
+        search_query = request.form.get('search_query', '')
+        query = "SELECT * FROM livres WHERE titre LIKE ? OR auteur LIKE ?"
+        livres = cursor.execute(query, ('%' + search_query + '%', '%' + search_query + '%')).fetchall()
     else:
-        # Si pas de recherche, on récupère tous les livres
-        query = "SELECT * FROM livres"
-        cursor.execute(query)
+        livres = all_livres  # Par défaut, afficher tous les livres
 
-    livres = cursor.fetchall()
     conn.close()
+    return render_template('recherche_livre.html', livres=livres, search_query=search_query)
 
-    return render_template('recherche_livre.html', livres=livres, search_query=request.form.get('search_query', ''))
 
 # Démarrer l'application Flask
 if __name__ == "__main__":
