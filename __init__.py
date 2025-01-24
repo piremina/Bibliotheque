@@ -9,10 +9,14 @@ def consigne():
     return render_template('index.html') #Comm
 
 # Route pour afficher la page d'enregistrement et de gestion des livres
-@app.route('/enregistrement_livre', methods=['GET', 'POST'])
+@app.route('/enregistrement_livre')
 def enregistrement_livre():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
+    cursor.execute("SELECT * FROM livres")
+    livres = cursor.fetchall()
+    conn.close()
+    return render_template('enregistrement_livre.html', livres=livres)
 
     if request.method == 'POST':
         # Ajouter un nouveau livre
