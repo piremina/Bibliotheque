@@ -8,6 +8,36 @@ app = Flask(__name__)
 def consigne():
     return render_template('index.html') #Comm
 
+# Route pour afficher et gérer l'enregistrement/suppression des livres
+@app.route('/enregistrement_livre', methods=['GET', 'POST'])
+def enregistrement_livre():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+# Ajouter un livre si méthode POST
+    if request.method == 'POST' and 'titre' in request.form and 'nom' in request.form:
+        titre = request.form['titre']
+        auteur = request.form['nom']
+        cursor.execute('INSERT INTO livres (titre, auteur) VALUES (?, ?)', (titre, auteur))
+        conn.commit()
+
+    # Récupérer tous les livres existants
+    cursor.execute('SELECT * FROM livres')
+    livres = cursor.fetchall()
+    conn.close()
+
+    return render_template('enregistrement_livre.html', livres=livres)
+
+# Route pour supprimer un livre
+@app.route('/supprimer_livre/<int:livre_id>', methods=['POST'])
+def supprimer_livre(livre_id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM livres WHERE id = ?', (livre_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('enregistrement_livre'))
+
 # Route pour afficher tous les livres et gérer la recherche
 @app.route('/recherche_livre/', methods=['GET', 'POST'])
 def recherche_livre():
