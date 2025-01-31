@@ -111,17 +111,16 @@
         </section>
 
         <!-- Section pour afficher la liste des livres -->
-<!-- Section pour afficher la liste des livres -->
-<section class="list-section">
-    <h2>Liste des Livres</h2>
-    <ul class="book-list">
-        {% for livre in livres %}
-        <li class="book-item">
-            <span>{{ livre[0] }} - {{ livre[1] }} ({{ livre[2] }}, {{ livre[3] }}, Stock: {{ livre[4] }})</span>
-        </li>
-        {% endfor %}
-    </ul>
-</section>
+        <section class="list-section">
+            <h2>Liste des Livres</h2>
+            <ul class="book-list">
+                {% for livre in livres %}
+                <li class="book-item">
+                    <span>{{ livre[0] }} - {{ livre[1] }} ({{ livre[2] }}, {{ livre[3] }}, Stock: {{ livre[4] }})</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
 
     </main>
 
