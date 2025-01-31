@@ -3,119 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recherche de Livres</title>
+    <title>Résultats de Recherche</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1, h2 {
-            color: #1D4ED8;
-            text-align: center;
-        }
-
-        form {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        #search_query {
-            padding: 10px;
-            font-size: 16px;
-            width: 70%;
-            max-width: 500px;
-            margin-right: 10px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #1D4ED8;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #1e40af;
-        }
-
-        table {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            border-collapse: collapse;
-            background: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #1D4ED8;
-            color: white;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .no-result {
-            text-align: center;
-            color: #888;
-            font-style: italic;
-        }
+        /* Style similaire à celui des autres pages */
     </style>
 </head>
 <body>
-    <h1>Recherche de Livres</h1>
-
-    <!-- Formulaire de recherche -->
-    <form method="POST" action="/recherche_livre">
-        <input type="text" id="search_query" name="search_query" placeholder="Saisissez un titre ou un auteur"
-               value="{{ search_query }}">
-        <button type="submit">Rechercher</button>
-    </form>
-
-    <h2>Liste des Livres</h2>
-
-    <!-- Tableau pour afficher les livres -->
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Titre</th>
-                <th>Auteur</th>
-                <th>Année</th>
-                <th>Genre</th>
-                <th>Stock</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if livres %}
+    <header>
+        <h1>📚 Résultats de Recherche</h1>
+    </header>
+    
+    <main>
+        <section class="list-section">
+            <h2>Résultats pour "{{ recherche }}"</h2>
+            <ul class="book-list">
                 {% for livre in livres %}
-                    <tr>
-                        <td>{{ livre[0] }}</td>
-                        <td>{{ livre[1] }}</td>
-                        <td>{{ livre[2] }}</td>
-                        <td>{{ livre[3] }}</td>
-                        <td>{{ livre[4] }}</td>
-                        <td>{{ livre[5] }}</td>
-                    </tr>
+                <li class="book-item">
+                    <span>{{ livre[1] }} - {{ livre[2] }} ({{ livre[3] }}, {{ livre[4] }})</span>
+                    <a href="/supprimer/{{ livre[0] }}" class="btn-primary" style="float: right; background-color: red;">Supprimer</a>
+                </li>
                 {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="6" class="no-result">Aucun livre trouvé.</td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
+            </ul>
+        </section>
+    </main>
 </body>
 </html>
