@@ -30,52 +30,20 @@
             padding: 20px;
         }
 
-        /* Formulaire */
-        .form-section {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* Formulaire de recherche */
+        .search-section {
             margin-bottom: 20px;
         }
 
-        .form-section h2 {
-            color: #2a3a8c;
-            margin-bottom: 15px;
-        }
-
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="number"] {
+        .search-section input[type="text"] {
             padding: 10px;
+            font-size: 16px;
+            width: 300px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px;
         }
 
-        input:focus {
-            border-color: #2a3a8c;
-            outline: none;
-            box-shadow: 0 0 5px rgba(42, 58, 140, 0.5);
-        }
-
-        /* Bouton principal */
-        .btn-primary {
+        .search-section button {
             background-color: #2a3a8c;
             color: #fff;
             padding: 10px 15px;
@@ -83,10 +51,9 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
-        .btn-primary:hover {
+        .search-section button:hover {
             background-color: #1f2c70;
         }
 
@@ -135,15 +102,11 @@
     </header>
     
     <main>
-        <!-- Section pour la barre de recherche des livres -->
-        <section class="form-section">
-            <h2>Rechercher un Livre</h2>
-            <form method="GET" action="/recherche_livre" class="form-container">
-                <div class="form-group">
-                    <label for="recherche">Rechercher par Titre, Auteur ou Genre:</label>
-                    <input type="text" id="recherche" name="recherche" placeholder="Entrez un mot-clé" required>
-                </div>
-                <button type="submit" class="btn-primary">Rechercher</button>
+        <!-- Section de recherche -->
+        <section class="search-section">
+            <form method="GET" action="/">
+                <input type="text" name="search" placeholder="Rechercher un livre par titre..." value="{{ request.args.get('search') }}">
+                <button type="submit">Rechercher</button>
             </form>
         </section>
 
@@ -154,38 +117,9 @@
                 {% for livre in livres %}
                 <li class="book-item">
                     <span>{{ livre[1] }} - {{ livre[2] }} ({{ livre[3] }}, {{ livre[4] }})</span>
-                    <a href="/supprimer/{{ livre[0] }}" class="btn-primary" style="float: right; background-color: red;">Supprimer</a>
                 </li>
                 {% endfor %}
             </ul>
-        </section>
-
-        <!-- Section pour enregistrer un nouveau livre -->
-        <section class="form-section">
-            <h2>Ajouter un Livre</h2>
-            <form method="POST" action="/ajouter_livre" class="form-container">
-                <div class="form-group">
-                    <label for="titre">Titre:</label>
-                    <input type="text" id="titre" name="titre" placeholder="Titre du livre" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="auteur">Auteur:</label>
-                    <input type="text" id="auteur" name="auteur" placeholder="Auteur du livre" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="annee">Année de Publication:</label>
-                    <input type="number" id="annee" name="annee" placeholder="Ex: 2023" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="genre">Genre:</label>
-                    <input type="text" id="genre" name="genre" placeholder="Ex: Science-fiction" required>
-                </div>
-
-                <button type="submit" class="btn-primary">Ajouter le Livre</button>
-            </form>
         </section>
     </main>
 
