@@ -33,23 +33,24 @@ def supprimer_livre(id):
     return redirect(url_for('consigne'))
 
 
-@app.route('/ajouter_livre', methods=['POST'])
+@app.route('/ajouter_livre', methods=['GET', 'POST'])
 def ajouter_livre():
-    titre = request.form['titre']
-    auteur = request.form['auteur']
-    annee = request.form['annee']
-    genre = request.form['genre']
-    
-    connection = sqlite3.connect('database.db')
-    cur = connection.cursor()
-    
-    cur.execute("INSERT INTO livres (titre, auteur, annee, genre) VALUES (?, ?, ?, ?)", 
-                (titre, auteur, annee, genre))
-    connection.commit()
-    connection.close()
-    
-    return redirect(url_for('consigne'))
-
+    if request.method == 'POST':
+        titre = request.form['titre']
+        auteur = request.form['auteur']
+        annee = request.form['annee']
+        genre = request.form['genre']
+        
+        connection = sqlite3.connect('database.db')
+        cur = connection.cursor()
+        
+        cur.execute("INSERT INTO livres (titre, auteur, annee, genre) VALUES (?, ?, ?, ?)", 
+                    (titre, auteur, annee, genre))
+        connection.commit()
+        connection.close()
+        
+        return redirect(url_for('consigne'))  # Retour à la page d'accueil après ajout
+    return render_template('ajouter_livre.html')
 
 
 
