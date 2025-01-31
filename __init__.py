@@ -3,7 +3,7 @@ import sqlite3
 
 app = Flask(__name__)                                                                                                                  
 
-@app.route('/index')
+@app.route('/')
 def consigne():
     return render_template('index.html') #Comm
 
