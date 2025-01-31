@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request
 import sqlite3
 
 app = Flask(__name__)
@@ -18,11 +18,12 @@ def consigne():
         # Sinon, on affiche tous les livres
         cur.execute("SELECT * FROM livres")
     
-    livres = cur.fetchall()
+    livres = cur.fetchall()  # On récupère la liste des livres
 
     # Fermer la connexion
     connection.close()
 
+    # Afficher la liste des livres dans le template
     return render_template('accueil.html', livres=livres)
 
 # Démarrer l'application Flask
