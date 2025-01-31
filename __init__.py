@@ -18,7 +18,8 @@ def recherche_livre():
     livres = cur.fetchall()
     
     connection.close()
-    return render_template('accueil.html', livres=livres)
+    return render_template('recherche_livre.html', livres=livres, recherche=recherche)
+
 
 
 @app.route('/supprimer/<int:id>', methods=['GET'])
