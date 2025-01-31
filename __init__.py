@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def consigne():
-    return render_template('index.html') #Comm
+    return render_template('accueil.html') #Comm
 
 # Route pour afficher la page d'enregistrement et de gestion des livres
 @app.route('/enregistrement_livre')
