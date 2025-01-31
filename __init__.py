@@ -5,7 +5,23 @@ app = Flask(__name__)
 
 @app.route('/')
 def consigne():
-    return render_template('accueil.html') #Comm
+    # Connexion à la base de données
+    connection = sqlite3.connect('database.db')
+    cur = connection.cursor()
+
+    # Récupérer tous les livres dans la base de données
+    cur.execute("SELECT * FROM livres")
+    livres = cur.fetchall()
+
+    # Fermer la connexion
+    connection.close()
+
+    # Passer la liste des livres à la page d'accueil
+    return render_template('accueil.html', livres=livres)
+
+
+
+
 
 @app.route('/recherche_livre', methods=['GET'])
 def recherche_livre():
