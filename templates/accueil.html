@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Bibliothèque</title>
+    <style>
+        /* Style général */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #2a3a8c; /* Bleu roi */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Section */
+        main {
+            padding: 20px;
+        }
+
+        /* Formulaire */
+        .form-section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-section h2 {
+            color: #2a3a8c;
+            margin-bottom: 15px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: #2a3a8c;
+            outline: none;
+            box-shadow: 0 0 5px rgba(42, 58, 140, 0.5);
+        }
+
+        /* Bouton principal */
+        .btn-primary {
+            background-color: #2a3a8c;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #1f2c70;
+        }
+
+        /* Liste des livres */
+        .list-section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-section h2 {
+            color: #2a3a8c;
+            margin-bottom: 15px;
+        }
+
+        .book-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .book-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .book-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2a3a8c;
+            color: #fff;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Gestion de Bibliothèque</h1>
+    </header>
+    
+    <main>
+        <!-- Section pour ajouter un livre -->
+        <section class="form-section">
+            <h2>Ajouter un Livre</h2>
+            <form method="POST" action="/enregistrement_livre" class="form-container">
+                <div class="form-group">
+                    <label for="titre">Titre:</label>
+                    <input type="text" id="titre" name="titre" placeholder="Titre du livre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="auteur">Auteur:</label>
+                    <input type="text" id="auteur" name="auteur" placeholder="Auteur du livre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="annee">Année de Publication:</label>
+                    <input type="number" id="annee" name="annee" placeholder="Ex: 2023" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="genre">Genre:</label>
+                    <input type="text" id="genre" name="genre" placeholder="Ex: Science-fiction" required>
+                </div>
+
+                <button type="submit" class="btn-primary">Ajouter le Livre</button>
+            </form>
+        </section>
+
+        <!-- Section pour afficher la liste des livres -->
+        <section class="list-section">
+            <h2>Liste des Livres</h2>
+            <ul class="book-list">
+                {% for livre in livres %}
+                <li class="book-item">
+                    <span>{{ livre[1] }} - {{ livre[2] }} ({{ livre[3] }}, {{ livre[4] }})</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Gestion de Bibliothèque. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
