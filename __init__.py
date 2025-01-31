@@ -3,27 +3,19 @@ import sqlite3
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
-def consigne():
-    # Connexion à la base de données
+# Fonction pour récupérer les livres depuis la base de données
+def get_all_books():
     connection = sqlite3.connect('database.db')
     cur = connection.cursor()
-
-    search_query = request.args.get('search')  # Récupérer la recherche de l'utilisateur
-
-    if search_query:
-        # Si une recherche est faite, on filtre les livres par titre
-        cur.execute("SELECT * FROM livres WHERE titre LIKE ?", ('%' + search_query + '%',))
-    else:
-        # Sinon, on affiche tous les livres
-        cur.execute("SELECT * FROM livres")
-    
+    cur.execute("SELECT titre, auteur, annee, genre, stock FROM livres")
     livres = cur.fetchall()
-
-    # Fermer la connexion
     connection.close()
+    return livres
 
-    return render_template('accueil.html', livres=livres)
+@app.route('/')
+def consigne():
+    livres = get_all_books()  # Récupérer la liste de tous les livres
+    return render_template('accueil.html', livres=livres)  # Passer les livres au template
 
 # Démarrer l'application Flask
 if __name__ == "__main__":
