@@ -135,10 +135,35 @@
     </header>
     
     <main>
-        <!-- Section pour ajouter un livre -->
+        <!-- Section pour la barre de recherche des livres -->
+        <section class="form-section">
+            <h2>Rechercher un Livre</h2>
+            <form method="GET" action="/recherche_livre" class="form-container">
+                <div class="form-group">
+                    <label for="recherche">Rechercher par Titre, Auteur ou Genre:</label>
+                    <input type="text" id="recherche" name="recherche" placeholder="Entrez un mot-clé" required>
+                </div>
+                <button type="submit" class="btn-primary">Rechercher</button>
+            </form>
+        </section>
+
+        <!-- Section pour afficher la liste des livres -->
+        <section class="list-section">
+            <h2>Liste des Livres</h2>
+            <ul class="book-list">
+                {% for livre in livres %}
+                <li class="book-item">
+                    <span>{{ livre[1] }} - {{ livre[2] }} ({{ livre[3] }}, {{ livre[4] }})</span>
+                    <a href="/supprimer/{{ livre[0] }}" class="btn-primary" style="float: right; background-color: red;">Supprimer</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Section pour enregistrer un nouveau livre -->
         <section class="form-section">
             <h2>Ajouter un Livre</h2>
-            <form method="POST" action="/enregistrement_livre" class="form-container">
+            <form method="POST" action="/ajouter_livre" class="form-container">
                 <div class="form-group">
                     <label for="titre">Titre:</label>
                     <input type="text" id="titre" name="titre" placeholder="Titre du livre" required>
@@ -161,18 +186,6 @@
 
                 <button type="submit" class="btn-primary">Ajouter le Livre</button>
             </form>
-        </section>
-
-        <!-- Section pour afficher la liste des livres -->
-        <section class="list-section">
-            <h2>Liste des Livres</h2>
-            <ul class="book-list">
-                {% for livre in livres %}
-                <li class="book-item">
-                    <span>{{ livre[1] }} - {{ livre[2] }} ({{ livre[3] }}, {{ livre[4] }})</span>
-                </li>
-                {% endfor %}
-            </ul>
         </section>
     </main>
 
