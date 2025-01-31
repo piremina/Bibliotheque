@@ -1,32 +1,24 @@
-from flask import Flask, render_template, request
-import sqlite3
-
-app = Flask(__name__)
-
-# Route principale
 @app.route('/', methods=['GET'])
 def consigne():
-    # Connexion à la base de données SQLite
+    # Connexion à la base de données
     connection = sqlite3.connect('database.db')
     cur = connection.cursor()
 
-    search_query = request.args.get('search')  # Récupérer la recherche de l'utilisateur
+    # Vérification du nombre de livres dans la base
+    cur.execute("SELECT COUNT(*) FROM livres")
+    total_livres = cur.fetchone()
+    print(f"Total livres dans la base : {total_livres[0]}")  # Affiche le nombre de livres dans la base
 
-    # Si une recherche est effectuée, on filtre les livres par titre
+    search_query = request.args.get('search')
+
     if search_query:
         cur.execute("SELECT * FROM livres WHERE titre LIKE ?", ('%' + search_query + '%',))
     else:
-    # Récupérer tous les livres dans la base de données
         cur.execute("SELECT * FROM livres")
-        livres = cur.fetchall()
+    
+    livres = cur.fetchall()
 
-
-    # Fermer la connexion à la base de données
+    # Fermer la connexion
     connection.close()
 
-    # Renvoyer la liste des livres vers le template HTML
     return render_template('accueil.html', livres=livres)
-
-# Démarrer l'application Flask
-if __name__ == "__main__":
-    app.run(debug=True)
