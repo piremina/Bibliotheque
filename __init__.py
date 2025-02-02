@@ -16,7 +16,7 @@ def consigne():
         cur.execute("SELECT * FROM livres WHERE titre LIKE ?", ('%' + search_query + '%',))
     else:
         # Sinon, on affiche tous les livres
-        cur.execute("SELECT * FROM livres")
+        cur.execute("SELECT * FROM livres;")
     
     livres = cur.fetchall()  # On récupère la liste des livres
 
