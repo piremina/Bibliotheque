@@ -19,7 +19,8 @@ def consigne():
         cur.execute("SELECT * FROM livres;")
     
     livres = cur.fetchall()  # On récupère la liste des livres
-
+    print(livres)  # Ligne de débogage pour afficher les livres récupérés
+    
     # Fermer la connexion
     connection.close()
 
