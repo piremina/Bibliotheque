@@ -3,7 +3,7 @@ import sqlite3
 
 app = Flask(__name__)
 
-# Page principale avec affichage et recherche des livres
+# Page principale avec affichage des livres et des emprunts
 @app.route('/', methods=['GET'])
 def consigne():
     connection = sqlite3.connect('database.db')
@@ -17,9 +17,18 @@ def consigne():
         cur.execute("SELECT * FROM livres;")
     
     livres = cur.fetchall()
-    connection.close()
 
-    return render_template('accueil.html', livres=livres)
+    # Récupérer la liste des emprunts
+    cur.execute("""
+        SELECT emprunts.id, livres.titre, emprunts.nom_emprunteur 
+        FROM emprunts 
+        JOIN livres ON emprunts.livre_id = livres.id
+    """)
+    emprunts = cur.fetchall()
+
+    connection.close()
+    
+    return render_template('accueil.html', livres=livres, emprunts=emprunts)
 
 # Route pour ajouter un livre
 @app.route('/ajouter', methods=['POST'])
@@ -50,36 +59,28 @@ def supprimer_livre(id):
 
     return redirect(url_for('consigne'))
 
-# Route pour afficher le formulaire de modification d'un livre
-@app.route('/modifier/<int:id>', methods=['GET'])
-def modifier_livre(id):
-    connection = sqlite3.connect('database.db')
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM livres WHERE id = ?", (id,))
-    livre = cur.fetchone()
-    connection.close()
-
-    return render_template('modifier.html', livre=livre)
-
-# Route pour mettre à jour un livre dans la base de données
-@app.route('/modifier_livre/<int:id>', methods=['POST'])
-def mettre_a_jour_livre(id):
-    titre = request.form['titre']
-    auteur = request.form['auteur']
-    annee = request.form['annee']
-    genre = request.form['genre']
-    stock = request.form['stock']
+# Route pour emprunter un livre
+@app.route('/emprunter/<int:id>', methods=['POST'])
+def emprunter_livre(id):
+    nom_emprunteur = request.form['nom_emprunteur']
 
     connection = sqlite3.connect('database.db')
     cur = connection.cursor()
-    cur.execute("""
-        UPDATE livres 
-        SET titre = ?, auteur = ?, annee = ?, genre = ?, stock = ? 
-        WHERE id = ?
-    """, (titre, auteur, annee, genre, stock, id))
-    connection.commit()
-    connection.close()
 
+    # Vérifier si le livre est en stock
+    cur.execute("SELECT stock FROM livres WHERE id = ?", (id,))
+    stock = cur.fetchone()[0]
+
+    if stock > 0:
+        # Enregistrer l'emprunt
+        cur.execute("INSERT INTO emprunts (livre_id, nom_emprunteur) VALUES (?, ?)", (id, nom_emprunteur))
+
+        # Réduire le stock du livre
+        cur.execute("UPDATE livres SET stock = stock - 1 WHERE id = ?", (id,))
+        
+        connection.commit()
+
+    connection.close()
     return redirect(url_for('consigne'))
 
 if __name__ == "__main__":
