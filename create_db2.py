@@ -16,7 +16,16 @@ cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, 
 cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Le Petit Prince', 'Antoine de Saint-Exupéry', 1943, 'Conte', 7))
 cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('L’Étranger', 'Albert Camus', 1942, 'Philosophique', 4))
 cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Crime et Châtiment', 'Fiodor Dostoïevski', 1866, 'Psychologique', 6))
-
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Orgueil et Préjugés', 'Jane Austen', 1813, 'Roman', 8))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Moby Dick', 'Herman Melville', 1851, 'Aventure', 5))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Don Quichotte', 'Miguel de Cervantes', 1605, 'Roman', 4))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('La Métamorphose', 'Franz Kafka', 1915, 'Fantastique', 6))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Les Fleurs du mal', 'Charles Baudelaire', 1857, 'Poésie', 7))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Le Comte de Monte-Cristo', 'Alexandre Dumas', 1844, 'Aventure', 5))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Ulysse', 'James Joyce', 1922, 'Modernisme', 3))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Madame Bovary', 'Gustave Flaubert', 1857, 'Réalisme', 6))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Guerre et Paix', 'Léon Tolstoï', 1869, 'Historique', 4))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('L’Odyssée', 'Homère', -800, 'Épopée', 5))
 
 # Validation des modifications
 connection.commit()
