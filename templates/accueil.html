@@ -63,6 +63,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
         .list-section h2 {
@@ -79,10 +80,52 @@
             padding: 10px;
             border-bottom: 1px solid #ddd;
             font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .book-item:last-child {
             border-bottom: none;
+        }
+
+        /* Bouton supprimer */
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .delete-button:hover {
+            background-color: darkred;
+        }
+
+        /* Formulaire d'ajout */
+        .add-book-form input {
+            padding: 10px;
+            font-size: 14px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .add-book-form button {
+            background-color: green;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .add-book-form button:hover {
+            background-color: darkgreen;
         }
 
         /* Footer */
@@ -116,12 +159,27 @@
             <ul class="book-list">
                 {% for livre in livres %}
                 <li class="book-item">
-                    <span>{{ livre[1] }} - {{ livre[2] }}</span>
+                    <span>{{ livre[1] }} - {{ livre[2] }} ({{ livre[3] }}, {{ livre[4] }} exemplaires)</span>
+                    <form action="{{ url_for('supprimer_livre', id=livre[0]) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="delete-button">Supprimer</button>
+                    </form>
                 </li>
                 {% endfor %}
             </ul>
         </section>
 
+        <!-- Formulaire pour ajouter un livre -->
+        <section class="list-section">
+            <h2>Ajouter un Livre</h2>
+            <form class="add-book-form" method="POST" action="{{ url_for('ajouter_livre') }}">
+                <input type="text" name="titre" placeholder="Titre du livre" required>
+                <input type="text" name="auteur" placeholder="Auteur" required>
+                <input type="number" name="annee" placeholder="Année de publication" required>
+                <input type="text" name="genre" placeholder="Genre" required>
+                <input type="number" name="stock" placeholder="Stock disponible" required>
+                <button type="submit">Ajouter</button>
+            </form>
+        </section>
     </main>
 
     <footer>
