@@ -27,6 +27,12 @@ cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, 
 cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Guerre et Paix', 'Léon Tolstoï', 1869, 'Historique', 4))
 cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('L’Odyssée', 'Homère', -800, 'Épopée', 5))
 
+# Insertion des utilisateurs et administrateurs (avec un mot de passe simple)
+cur.execute("INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role) VALUES (?, ?, ?, ?, ?)", 
+            ('Dupont', 'Jean', 'jean.dupont@example.com', 'userpass', 'utilisateur'))
+cur.execute("INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role) VALUES (?, ?, ?, ?, ?)", 
+            ('Admin', 'Marie', 'admin@example.com', 'adminpass', 'administrateur'))
+
 # Validation des modifications
 connection.commit()
 
