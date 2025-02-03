@@ -1,86 +1,50 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 
 app = Flask(__name__)
+app.secret_key = 'ton_secret_key'  # À changer
 
-# Page principale avec affichage et recherche des livres
-@app.route('/', methods=['GET'])
-def consigne():
-    connection = sqlite3.connect('database.db')
-    cur = connection.cursor()
+# Connexion à la base de données
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
+# Route pour la page d'accueil et de recherche
+@app.route('/')
+def accueil():
+    user_role = session.get('role', 'utilisateur')  # Récupère le rôle de l'utilisateur
     search_query = request.args.get('search')
-
+    conn = get_db_connection()
     if search_query:
-        cur.execute("SELECT * FROM livres WHERE titre LIKE ?", ('%' + search_query + '%',))
+        livres = conn.execute("SELECT * FROM livres WHERE titre LIKE ?", ('%' + search_query + '%',)).fetchall()
     else:
-        cur.execute("SELECT * FROM livres;")
-    
-    livres = cur.fetchall()
-    connection.close()
+        livres = conn.execute("SELECT * FROM livres").fetchall()
+    conn.close()
+    return render_template('accueil.html', livres=livres, user_role=user_role)
 
-    return render_template('accueil.html', livres=livres)
+# Route pour la connexion
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        mot_de_passe = request.form['mot_de_passe']
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM utilisateurs WHERE email = ?', (email,)).fetchone()
+        conn.close()
+        if user and user['mot_de_passe'] == mot_de_passe:
+            session['user_id'] = user['id']
+            session['role'] = user['role']
+            return redirect(url_for('accueil'))
+        else:
+            return "Identifiants incorrects", 401
+    return render_template('login.html')
 
-# Route pour ajouter un livre
-@app.route('/ajouter', methods=['POST'])
-def ajouter_livre():
-    titre = request.form['titre']
-    auteur = request.form['auteur']
-    annee = request.form['annee']
-    genre = request.form['genre']
-    stock = request.form['stock']
+# Déconnexion
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('accueil'))
 
-    connection = sqlite3.connect('database.db')
-    cur = connection.cursor()
-    cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", 
-                (titre, auteur, annee, genre, stock))
-    connection.commit()
-    connection.close()
-
-    return redirect(url_for('consigne'))
-
-# Route pour supprimer un livre
-@app.route('/supprimer/<int:id>', methods=['POST'])
-def supprimer_livre(id):
-    connection = sqlite3.connect('database.db')
-    cur = connection.cursor()
-    cur.execute("DELETE FROM livres WHERE id = ?", (id,))
-    connection.commit()
-    connection.close()
-
-    return redirect(url_for('consigne'))
-
-# Route pour afficher le formulaire de modification d'un livre
-@app.route('/modifier/<int:id>', methods=['GET'])
-def modifier_livre(id):
-    connection = sqlite3.connect('database.db')
-    cur = connection.cursor()
-    cur.execute("SELECT * FROM livres WHERE id = ?", (id,))
-    livre = cur.fetchone()
-    connection.close()
-
-    return render_template('modifier.html', livre=livre)
-
-# Route pour mettre à jour un livre dans la base de données
-@app.route('/modifier_livre/<int:id>', methods=['POST'])
-def mettre_a_jour_livre(id):
-    titre = request.form['titre']
-    auteur = request.form['auteur']
-    annee = request.form['annee']
-    genre = request.form['genre']
-    stock = request.form['stock']
-
-    connection = sqlite3.connect('database.db')
-    cur = connection.cursor()
-    cur.execute("""
-        UPDATE livres 
-        SET titre = ?, auteur = ?, annee = ?, genre = ?, stock = ? 
-        WHERE id = ?
-    """, (titre, auteur, annee, genre, stock, id))
-    connection.commit()
-    connection.close()
-
-    return redirect(url_for('consigne'))
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
