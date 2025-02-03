@@ -50,5 +50,37 @@ def supprimer_livre(id):
 
     return redirect(url_for('consigne'))
 
+# Route pour afficher le formulaire de modification d'un livre
+@app.route('/modifier/<int:id>', methods=['GET'])
+def modifier_livre(id):
+    connection = sqlite3.connect('database.db')
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM livres WHERE id = ?", (id,))
+    livre = cur.fetchone()
+    connection.close()
+
+    return render_template('modifier.html', livre=livre)
+
+# Route pour mettre à jour un livre dans la base de données
+@app.route('/modifier_livre/<int:id>', methods=['POST'])
+def mettre_a_jour_livre(id):
+    titre = request.form['titre']
+    auteur = request.form['auteur']
+    annee = request.form['annee']
+    genre = request.form['genre']
+    stock = request.form['stock']
+
+    connection = sqlite3.connect('database.db')
+    cur = connection.cursor()
+    cur.execute("""
+        UPDATE livres 
+        SET titre = ?, auteur = ?, annee = ?, genre = ?, stock = ? 
+        WHERE id = ?
+    """, (titre, auteur, annee, genre, stock, id))
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for('consigne'))
+
 if __name__ == "__main__":
     app.run(debug=True)
