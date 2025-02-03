@@ -11,7 +11,7 @@ with open('schema2.sql') as f:
 cur = connection.cursor()
 
 # Insertion de quelques livres avec l'année incluse
-cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Les Misérablesss', 'Victor Hugo', 1862, 'Roman', 5))
+cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Les Misérables', 'Victor Hugo', 1862, 'Roman', 5))
 cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('1984', 'George Orwell', 1949, 'Dystopie', 3))
 cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('Le Petit Prince', 'Antoine de Saint-Exupéry', 1943, 'Conte', 7))
 cur.execute("INSERT INTO livres (titre, auteur, annee, genre, stock) VALUES (?, ?, ?, ?, ?)", ('L’Étranger', 'Albert Camus', 1942, 'Philosophique', 4))
