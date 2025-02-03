@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier un Livre</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+        }
+        input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #2a3a8c;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #1f2c70;
+        }
+    </style>
+</head>
+<body>
+    <h1>Modifier un Livre</h1>
+    <form method="POST" action="{{ url_for('mettre_a_jour_livre', id=livre[0]) }}">
+        <input type="text" name="titre" value="{{ livre[1] }}" required>
+        <input type="text" name="auteur" value="{{ livre[2] }}" required>
+        <input type="number" name="annee" value="{{ livre[3] }}" required>
+        <input type="text" name="genre" value="{{ livre[4] }}" required>
+        <input type="number" name="stock" value="{{ livre[5] }}" required>
+        <button type="submit">Enregistrer</button>
+    </form>
+</body>
+</html>
