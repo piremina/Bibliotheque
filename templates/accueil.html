@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion de Bibliothèque</title>
     <style>
+        /* Style général */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -12,8 +13,10 @@
             background-color: #f5f5f5;
             color: #333;
         }
+
+        /* Header */
         header {
-            background-color: #2a3a8c;
+            background-color: #2a3a8c; /* Bleu roi */
             color: #fff;
             padding: 20px;
             text-align: center;
@@ -21,13 +24,17 @@
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
+
+        /* Main Section */
         main {
             padding: 20px;
         }
+
+        /* Formulaire de recherche */
         .search-section {
             margin-bottom: 20px;
-            text-align: center;
         }
+
         .search-section input[type="text"] {
             padding: 10px;
             font-size: 16px;
@@ -35,6 +42,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         .search-section button {
             background-color: #2a3a8c;
             color: #fff;
@@ -44,46 +52,47 @@
             font-size: 16px;
             cursor: pointer;
         }
+
         .search-section button:hover {
             background-color: #1f2c70;
         }
+
+        /* Liste des livres */
         .list-section {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         .list-section h2 {
             color: #2a3a8c;
             margin-bottom: 15px;
-            text-align: center;
         }
+
         .book-list {
             list-style-type: none;
             padding: 0;
         }
+
         .book-item {
             padding: 10px;
             border-bottom: 1px solid #ddd;
             font-size: 16px;
         }
+
         .book-item:last-child {
             border-bottom: none;
         }
-        .pagination {
+
+        /* Footer */
+        footer {
             text-align: center;
-            margin-top: 20px;
-        }
-        .pagination a {
-            text-decoration: none;
+            padding: 10px;
             background-color: #2a3a8c;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            margin: 0 5px;
-        }
-        .pagination a:hover {
-            background-color: #1f2c70;
+            color: #fff;
+            font-size: 14px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -93,15 +102,15 @@
     </header>
     
     <main>
-        <!-- Barre de recherche -->
+        <!-- Section de recherche -->
         <section class="search-section">
             <form method="GET" action="/">
-                <input type="text" name="search" placeholder="Rechercher un livre par titre..." value="{{ search_query }}">
+                <input type="text" name="search" placeholder="Rechercher un livre par titre..." value="{{ request.args.get('search') }}">
                 <button type="submit">Rechercher</button>
             </form>
         </section>
 
-        <!-- Liste des livres -->
+        <!-- Section pour afficher la liste des livres -->
         <section class="list-section">
             <h2>Liste des Livres</h2>
             <ul class="book-list">
@@ -113,16 +122,6 @@
             </ul>
         </section>
 
-        <!-- Pagination -->
-        <div class="pagination">
-            {% if page > 1 %}
-                <a href="?search={{ search_query }}&page={{ page - 1 }}">Précédent</a>
-            {% endif %}
-            <span>Page {{ page }} / {{ total_pages }}</span>
-            {% if page < total_pages %}
-                <a href="?search={{ search_query }}&page={{ page + 1 }}">Suivant</a>
-            {% endif %}
-        </div>
     </main>
 
     <footer>
