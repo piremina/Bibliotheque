@@ -57,46 +57,53 @@
             background-color: #1f2c70;
         }
 
-        /* Liste des livres */
-        .list-section {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
+        /* Tableau des livres */
+        .book-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .list-section h2 {
-            color: #2a3a8c;
-            margin-bottom: 15px;
+        .book-table th, .book-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
         }
 
-        .book-list {
-            list-style-type: none;
-            padding: 0;
+        .book-table th {
+            background-color: #2a3a8c;
+            color: white;
         }
 
-        .book-item {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            font-size: 16px;
+        /* Boutons Modifier et Supprimer */
+        .action-buttons {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 5px;
         }
 
-        .book-item:last-child {
-            border-bottom: none;
+        .edit-button, .delete-button {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
-        /* Bouton supprimer */
+        .edit-button {
+            background-color: orange;
+            color: white;
+        }
+
+        .edit-button:hover {
+            background-color: darkorange;
+        }
+
         .delete-button {
             background-color: red;
             color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
         }
 
         .delete-button:hover {
@@ -153,19 +160,38 @@
             </form>
         </section>
 
-        <!-- Section pour afficher la liste des livres -->
+        <!-- Section pour afficher la liste des livres sous forme de tableau -->
         <section class="list-section">
             <h2>Liste des Livres</h2>
-            <ul class="book-list">
-                {% for livre in livres %}
-                <li class="book-item">
-                    <span>{{ livre[1] }} - {{ livre[2] }} ({{ livre[3] }}, {{ livre[4] }} exemplaires)</span>
-                    <form action="{{ url_for('supprimer_livre', id=livre[0]) }}" method="POST" style="display:inline;">
-                        <button type="submit" class="delete-button">Supprimer</button>
-                    </form>
-                </li>
-                {% endfor %}
-            </ul>
+            <table class="book-table">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Année</th>
+                        <th>Genre</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livre in livres %}
+                    <tr>
+                        <td>{{ livre[1] }}</td>
+                        <td>{{ livre[2] }}</td>
+                        <td>{{ livre[3] }}</td>
+                        <td>{{ livre[4] }}</td>
+                        <td>{{ livre[5] }}</td>
+                        <td class="action-buttons">
+                            <a href="{{ url_for('modifier_livre', id=livre[0]) }}" class="edit-button">Modifier</a>
+                            <form action="{{ url_for('supprimer_livre', id=livre[0]) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="delete-button">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </section>
 
         <!-- Formulaire pour ajouter un livre -->
